@@ -17,7 +17,7 @@ Use this checklist whenever implementing or reviewing the POC.
 
 ## State And PKCE
 
-- preserve LuxHub `state` accurately
+- preserve the third-party app `state` accurately
 - keep any proxy-specific correlation id distinct
 - preserve `code_challenge` values unchanged
 

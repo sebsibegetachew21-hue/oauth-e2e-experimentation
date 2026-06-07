@@ -5,22 +5,22 @@ const apiBaseUrl = 'http://127.0.0.1:8080'
 const callbackPath = '/login/callback'
 const consentTtlMs = 120_000
 
-async function loadTreasuryAccountWithToken() {
+async function loadResourceAppAccountWithToken() {
   const tokens = await oktaAuth.tokenManager.getTokens()
   const accessToken = tokens.accessToken?.accessToken ?? ''
 
   if (!accessToken) {
-    throw new Error('No Treasury access token found in token manager')
+    throw new Error('No resource app access token found in token manager')
   }
 
-  const response = await fetch(`${apiBaseUrl}/api/treasury/account`, {
+  const response = await fetch(`${apiBaseUrl}/api/resource-app/account`, {
     headers: {
       Authorization: `Bearer ${accessToken}`
     }
   })
 
   if (!response.ok) {
-    throw new Error(`Treasury account call failed with status ${response.status}`)
+    throw new Error(`Resource app account call failed with status ${response.status}`)
   }
 
   const account = await response.json()
@@ -31,11 +31,11 @@ function MissingConfigPage() {
   return (
     <main className="page">
       <section className="card">
-        <p className="eyebrow">Treasury Setup</p>
+        <p className="eyebrow">Resource App Setup</p>
         <h1>Okta config required</h1>
         <p className="body">
           Add <code>VITE_OKTA_ISSUER</code> and <code>VITE_OKTA_CLIENT_ID</code> to a local
-          <code>.env</code> file in <code>treasury-frontend</code>, then restart the Vite server.
+          <code>.env</code> file in <code>resource-app-frontend</code>, then restart the Vite server.
         </p>
         <div className="hint">
           <span>Callback URI</span>
@@ -55,7 +55,7 @@ function LoginPage({ originalUri, title, body, hintLabel, hintValue }) {
   return (
     <main className="page">
       <section className="card">
-        <p className="eyebrow">Treasury Login</p>
+        <p className="eyebrow">Resource App Login</p>
         <h1>{title}</h1>
         <p className="body">{body}</p>
         <div className="hint">
@@ -100,7 +100,7 @@ function CallbackPage() {
   return (
     <main className="page">
       <section className="card">
-        <p className="eyebrow">Treasury Callback</p>
+        <p className="eyebrow">Resource App Callback</p>
         <h1>Completing sign-in</h1>
         <p className="body">Processing the Okta redirect and restoring the consent page.</p>
         {error ? <p className="error">{error}</p> : null}
@@ -120,18 +120,18 @@ function TokenPanel() {
 
     async function loadTokenAndAccount() {
       try {
-        const result = await loadTreasuryAccountWithToken()
+        const result = await loadResourceAppAccountWithToken()
         if (cancelled) {
           return
         }
 
-        console.log('[Treasury] access_token', result.accessToken)
-        console.log('[Treasury] account response', result.account)
+        console.log('[Resource App] access_token', result.accessToken)
+        console.log('[Resource App] account response', result.account)
         setAccessToken(result.accessToken)
         setAccountInfo(result.account)
       } catch (err) {
         if (!cancelled) {
-          setError(err instanceof Error ? err.message : 'Failed to load Treasury token')
+          setError(err instanceof Error ? err.message : 'Failed to load resource app token')
         }
       } finally {
         if (!cancelled) {
@@ -149,17 +149,17 @@ function TokenPanel() {
 
   return (
     <>
-      <h2 className="section-title">Treasury access token</h2>
+      <h2 className="section-title">Resource app access token</h2>
       {accessToken ? (
         <pre className="code-block">{accessToken}</pre>
       ) : loading ? (
-        <p className="body">Loading Treasury access token...</p>
+        <p className="body">Loading resource app access token...</p>
       ) : null}
-      <h2 className="section-title">Treasury account response</h2>
+      <h2 className="section-title">Resource app account response</h2>
       {accountInfo ? (
         <pre className="code-block">{JSON.stringify(accountInfo, null, 2)}</pre>
       ) : loading ? (
-        <p className="body">Calling Treasury account endpoint...</p>
+        <p className="body">Calling resource app account endpoint...</p>
       ) : null}
       {error ? <p className="error">{error}</p> : null}
     </>
@@ -170,11 +170,12 @@ function HomePage({ userEmail, onLogout }) {
   return (
     <main className="page">
       <section className="card">
-        <p className="eyebrow">Treasury</p>
-        <h1>Treasury home</h1>
+        <p className="eyebrow">Resource App</p>
+        <h1>Resource app home</h1>
         <p className="body">
-          You are signed in to Treasury directly. Consent is only shown when you arrive through the
-          LuxHub or proxy flow with a valid consent state.
+          The resource app is protected by Okta in this POC. Direct sign-in lands on the resource
+          app home, while consent is only shown when you arrive through the third-party app flow
+          with a valid consent state.
         </p>
         <div className="detail">
           <span>Signed in as</span>
@@ -244,11 +245,11 @@ function ConsentPage({ state, userEmail, onLogout }) {
   return (
     <main className="page">
       <section className="card">
-        <p className="eyebrow">Treasury</p>
+        <p className="eyebrow">Resource App</p>
         <h1>Approve data sharing</h1>
         <p className="body">
-          Treasury owns the consent step in this POC. LuxHub does not render approval screens and
-          the proxy has already cached the original authorize request.
+          The resource app owns the consent step in this POC. The third-party app does not render
+          approval screens, and the proxy has already cached the original authorize request.
         </p>
         <div className="detail">
           <span>Consent state</span>
@@ -333,7 +334,7 @@ export default function App() {
     try {
       await oktaAuth.closeSession()
     } catch (error) {
-      console.error('Treasury logout fallback', error)
+      console.error('Resource App logout fallback', error)
     }
 
     window.location.replace('/')
@@ -353,7 +354,7 @@ export default function App() {
         <LoginPage
           originalUri={`/consent?state=${encodeURIComponent(state)}`}
           title="Sign in before consent"
-          body="Treasury is the only frontend protected by Okta in this POC. Sign in before the consent screen is shown."
+          body="The resource app is protected by Okta in this POC. Sign in before the consent screen is shown."
           hintLabel="Consent state"
           hintValue={state || 'missing'}
         />
@@ -363,10 +364,10 @@ export default function App() {
     return (
       <LoginPage
         originalUri="/"
-        title="Sign in to Treasury"
-        body="Direct Treasury login lands on Treasury home. Consent only appears when you are redirected here by the proxy with a valid state."
+        title="Sign in to the resource app"
+        body="Direct resource app login lands on the resource app home. Consent only appears when you are redirected here by the proxy with a valid state."
         hintLabel="Entry point"
-        hintValue="Direct Treasury login"
+        hintValue="Direct resource app login"
       />
     )
   }

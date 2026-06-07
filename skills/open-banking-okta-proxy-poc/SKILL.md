@@ -1,17 +1,17 @@
 ---
 name: open-banking-okta-proxy-poc
-description: Use when building or iterating on a local proof of concept for an OAuth or OIDC proxy that intercepts LuxHub authorize requests, detours through Okta-backed Treasury consent, then resumes the original authorization flow. Applies to architecture clarification, endpoint design, local Okta setup, request and state handling, and POC scoping. Excludes Ping-specific implementation unless the user explicitly adds it back.
+description: Use when building or iterating on a local proof of concept for an OAuth or OIDC proxy that intercepts third-party app authorize requests, detours through Okta-backed resource app consent, then resumes the original authorization flow. Applies to architecture clarification, endpoint design, local Okta setup, request and state handling, and POC scoping. Excludes Ping-specific implementation unless the user explicitly adds it back.
 ---
 
 # Open Banking Okta Proxy POC
 
 Use this skill when the task is to design, explain, or implement a local proof of concept for the proxy flow where:
 
-- `LuxHub` starts with `GET /authorize`
+- the third-party app starts with `GET /authorize`
 - the proxy caches the original OAuth request
-- the browser is redirected through `Okta` and a `Treasury` consent step
+- the browser is redirected through `Okta` and a resource app consent step
 - the proxy resumes the original authorize request after consent
-- `LuxHub` eventually receives the final authorization code
+- the third-party app eventually receives the final authorization code
 
 ## Workflow
 
@@ -24,12 +24,12 @@ Use this skill when the task is to design, explain, or implement a local proof o
 
 ## Default Build Constraints
 
-- Prefer a local POC with three apps: `proxy`, `treasury-mock`, and `luxhub-mock`.
+- Prefer a local POC with three apps: `proxy`, `resource-app-mock`, and `third-party-app-mock`.
 - Keep `Ping` out of scope unless explicitly requested.
-- Prefer direct `/token` exchange between `LuxHub` and `Okta`.
+- Prefer direct `/token` exchange between the third-party app and `Okta`.
 - Only proxy `/token` if the user explicitly requires the same public domain for both `/authorize` and `/token`.
 - Start with in-memory cache. Add Redis only if the task specifically needs shared state or realistic deployment behavior.
-- Preserve original LuxHub parameters exactly where possible:
+- Preserve original third-party app parameters exactly where possible:
   - `client_id`
   - `redirect_uri`
   - `state`
@@ -41,8 +41,8 @@ Use this skill when the task is to design, explain, or implement a local proof o
 ## Implementation Priorities
 
 - Treat the proxy as a stateful orchestration layer, not as a second authorization server.
-- Separate the `Treasury` consent journey from LuxHub's final authorization result.
-- Resume the original LuxHub authorize request only after the consent callback succeeds.
+- Separate the resource app consent journey from the third-party app final authorization result.
+- Resume the original third-party app authorize request only after the consent callback succeeds.
 - Make cached authorize requests short-lived and one-time-use.
 - Do not leak tokens, secrets, or full authorize payloads into logs.
 

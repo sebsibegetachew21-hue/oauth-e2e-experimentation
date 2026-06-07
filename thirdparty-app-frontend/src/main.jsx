@@ -13,7 +13,7 @@ class ErrorBoundary extends React.Component {
   }
 
   componentDidCatch(error) {
-    console.error('LuxHub runtime error', error)
+    console.error('Third-Party App runtime error', error)
   }
 
   render() {
@@ -21,7 +21,7 @@ class ErrorBoundary extends React.Component {
       return (
         <main className="page">
           <section className="card">
-            <p className="eyebrow">LuxHub Error</p>
+            <p className="eyebrow">Third-Party App Error</p>
             <h1>Frontend crashed</h1>
             <p className="error">{this.state.error.message || 'Unknown runtime error'}</p>
             <div className="detail">
@@ -44,7 +44,7 @@ function renderStartupError(message) {
   root.render(
     <main className="page">
       <section className="card">
-        <p className="eyebrow">LuxHub Error</p>
+        <p className="eyebrow">Third-Party App Error</p>
         <h1>Frontend failed to start</h1>
         <p className="error">{message}</p>
         <div className="detail">
@@ -76,6 +76,6 @@ import('./App')
     )
   })
   .catch((error) => {
-    console.error('LuxHub startup import failed', error)
+    console.error('Third-Party App startup import failed', error)
     renderStartupError(error?.message || 'Failed to import App module')
   })

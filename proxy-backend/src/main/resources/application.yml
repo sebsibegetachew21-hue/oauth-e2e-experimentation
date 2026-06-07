@@ -2,8 +2,8 @@ server:
   port: 8080
 
 app:
-  luxhub-frontend-base-url: http://127.0.0.1:5173
-  treasury-frontend-base-url: http://127.0.0.1:5174
+  third-party-app-frontend-base-url: http://127.0.0.1:5173
+  resource-app-frontend-base-url: http://127.0.0.1:5174
 
 okta:
   issuer: ${OKTA_ISSUER:https://integrator-7968552.okta.com/oauth2/default}

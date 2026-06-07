@@ -1,15 +1,16 @@
 proxy-backend/.gradle/
 proxy-backend/build/
-luxhub-frontend/node_modules/
-luxhub-frontend/dist/
-treasury-frontend/node_modules/
-treasury-frontend/dist/
+thirdparty-app-frontend/node_modules/
+thirdparty-app-frontend/dist/
+resource-app-frontend/node_modules/
+resource-app-frontend/dist/
 node_modules/
 dist/
 build/
 target/
 .gradle/
 .playwright-mcp/
+.vite/
 
 *.png
 *.log

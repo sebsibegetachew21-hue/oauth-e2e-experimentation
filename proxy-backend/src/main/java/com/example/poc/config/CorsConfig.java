@@ -15,14 +15,14 @@ public class CorsConfig {
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/api/**")
                     .allowedOrigins(
-                        appProperties.luxhubFrontendBaseUrl(),
-                        appProperties.treasuryFrontendBaseUrl()
+                        appProperties.thirdPartyAppFrontendBaseUrl(),
+                        appProperties.resourceAppFrontendBaseUrl()
                     )
                     .allowedMethods("GET")
                     .allowedHeaders("*");
 
                 registry.addMapping("/oauth/token")
-                    .allowedOrigins(appProperties.luxhubFrontendBaseUrl())
+                    .allowedOrigins(appProperties.thirdPartyAppFrontendBaseUrl())
                     .allowedMethods("POST")
                     .allowedHeaders("*");
             }

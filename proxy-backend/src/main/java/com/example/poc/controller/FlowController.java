@@ -65,7 +65,7 @@ public class FlowController {
             codeChallengeMethod
         );
 
-        return new RedirectView(appProperties.treasuryFrontendBaseUrl() + "/consent?state=" + state);
+        return new RedirectView(appProperties.resourceAppFrontendBaseUrl() + "/consent?state=" + state);
     }
 
     @GetMapping("/oauth/okta/start")
@@ -96,17 +96,17 @@ public class FlowController {
         @RequestParam("state") String state
     ) {
         ProxyCallbackState callbackState = ProxyCallbackState.parse(state);
-        CachedAuthorizeRequest request = authorizeRequestStore.get(callbackState.luxhubState());
+        CachedAuthorizeRequest request = authorizeRequestStore.get(callbackState.thirdPartyAppState());
         if (request == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unknown state");
         }
 
         Map<String, Object> tokenResponse = oktaTokenService.exchangeAuthorizationCode(code);
         authorizeRequestStore.saveAccessToken(
-            callbackState.luxhubState(),
+            callbackState.thirdPartyAppState(),
             String.valueOf(tokenResponse.getOrDefault("access_token", ""))
         );
-        String proxyCode = proxyTokenStore.save(callbackState.luxhubState(), tokenResponse);
+        String proxyCode = proxyTokenStore.save(callbackState.thirdPartyAppState(), tokenResponse);
         String target = UriComponentsBuilder
             .fromUriString(request.redirectUri())
             .queryParam("state", request.state())
@@ -163,7 +163,7 @@ public class FlowController {
         ));
     }
 
-    @GetMapping("/api/treasury/account")
+    @GetMapping("/api/resource-app/account")
     public ResponseEntity<Map<String, Object>> getAccountInfo(
         @org.springframework.web.bind.annotation.RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authorization
     ) {
@@ -172,8 +172,8 @@ public class FlowController {
         }
 
         String accessToken = normalizeBearerToken(authorization);
-        System.out.println("Treasury account raw Authorization = " + authorization);
-        System.out.println("Treasury account normalized accessToken = " + accessToken);
+        System.out.println("Resource app account raw Authorization = " + authorization);
+        System.out.println("Resource app account normalized accessToken = " + accessToken);
         System.out.println("ProxyTokenStore accessTokens = " + proxyTokenStore.getAccessTokens());
 
         if (!proxyTokenStore.hasAccessToken(accessToken)) {
@@ -181,7 +181,7 @@ public class FlowController {
         }
 
         return ResponseEntity.ok(Map.of(
-            "institution", "Treasury",
+            "institution", "Resource App",
             "accountId", "CHK-100200300",
             "accountType", "Checking",
             "currency", "USD",

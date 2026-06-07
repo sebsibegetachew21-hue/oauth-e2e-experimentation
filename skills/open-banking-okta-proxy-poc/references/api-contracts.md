@@ -5,9 +5,9 @@ These contracts are intentionally minimal for the POC.
 ## Proxy `GET /authorize`
 
 Purpose:
-- receive LuxHub's original OAuth authorize request
+- receive the third-party app original OAuth authorize request
 - validate and cache the request
-- redirect the browser into the Treasury login and consent journey
+- redirect the browser into the resource app login and consent journey
 
 Expected inbound parameters:
 - `client_id`
@@ -21,15 +21,15 @@ Expected inbound parameters:
 Behavior:
 - reject requests missing required fields
 - store a normalized request object keyed by state or a stable derived key
-- redirect to the Treasury start URL with enough correlation data to return later
+- redirect to the resource app start URL with enough correlation data to return later
 
-## Treasury `GET /consent`
+## Resource App `GET /consent`
 
 Purpose:
 - display the consent page after successful login
 
 Expected data:
-- LuxHub correlation value, directly or indirectly
+- third-party app correlation value, directly or indirectly
 
 Behavior:
 - render requested access in a simplified form for the POC
@@ -38,12 +38,12 @@ Behavior:
 ## Proxy `GET /tpd/callback`
 
 Purpose:
-- receive control back after Treasury consent
-- restore cached LuxHub authorize parameters
-- redirect to Okta authorize for the original LuxHub client
+- receive control back after resource app consent
+- restore cached third-party app authorize parameters
+- redirect to Okta authorize for the original third-party app client
 
 Expected inbound parameters:
-- `state` or another callback value that can restore the original LuxHub state
+- `state` or another callback value that can restore the original third-party app state
 
 Behavior:
 - load cached request
@@ -56,7 +56,7 @@ Behavior:
 Only define this if the task explicitly requires it.
 
 Purpose:
-- forward LuxHub token exchange requests to Okta
+- forward third-party app token exchange requests to Okta
 
 Default recommendation:
 - skip this endpoint for the local POC

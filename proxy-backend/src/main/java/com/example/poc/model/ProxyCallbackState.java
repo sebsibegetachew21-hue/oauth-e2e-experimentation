@@ -1,6 +1,6 @@
 package com.example.poc.model;
 
-public record ProxyCallbackState(String luxhubState) {
+public record ProxyCallbackState(String thirdPartyAppState) {
 
     public static ProxyCallbackState parse(String rawState) {
         if (rawState == null || !rawState.startsWith("proxy:")) {
@@ -11,6 +11,6 @@ public record ProxyCallbackState(String luxhubState) {
     }
 
     public String asOktaState() {
-        return "proxy:" + luxhubState;
+        return "proxy:" + thirdPartyAppState;
     }
 }
