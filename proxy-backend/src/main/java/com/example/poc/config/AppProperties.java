@@ -1,0 +1,7 @@
+package com.example.poc.config;
+
+import org.springframework.boot.context.properties.ConfigurationProperties;
+
+@ConfigurationProperties(prefix = "app")
+public record AppProperties(String luxhubFrontendBaseUrl, String treasuryFrontendBaseUrl) {
+}

@@ -1,0 +1,4 @@
+version: 1
+display_name: Open Banking Okta Proxy POC
+short_description: Build or explain a local proxy-based OAuth consent flow with Okta and Treasury.
+default_prompt: Build or explain a local POC where a proxy intercepts LuxHub authorize requests, redirects through Okta-backed Treasury consent, and resumes the original OAuth flow.

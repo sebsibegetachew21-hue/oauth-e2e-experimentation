@@ -1,0 +1,175 @@
+:root {
+  font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+  color: #1e2733;
+  background:
+    radial-gradient(circle at top right, rgba(0, 138, 122, 0.18), transparent 25%),
+    linear-gradient(160deg, #eaf5ef 0%, #f5f0e8 52%, #fcfcfa 100%);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.card {
+  width: min(760px, 100%);
+  padding: 34px;
+  border-radius: 26px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 26px 70px rgba(20, 47, 45, 0.14);
+}
+
+.eyebrow {
+  margin: 0 0 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.78rem;
+  color: #0e7a6d;
+}
+
+h1 {
+  margin: 0 0 14px;
+  font-size: clamp(2rem, 4vw, 3.3rem);
+  line-height: 0.95;
+}
+
+.section-title {
+  margin: 24px 0 10px;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #46515e;
+}
+
+.body {
+  margin: 0 0 24px;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #46515e;
+}
+
+.detail {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 0 0 16px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: #edf6f3;
+}
+
+.detail span {
+  color: #5b6773;
+}
+
+.detail strong {
+  text-align: right;
+}
+
+.detail-timer {
+  background: #eef6d8;
+}
+
+.detail-expired {
+  background: #fde7e7;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 999px;
+  padding: 14px 22px;
+  background: #0e7a6d;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.button.secondary {
+  margin-top: 12px;
+  background: #d9e7e3;
+  color: #1e2733;
+}
+
+.stack {
+  display: grid;
+  gap: 16px;
+}
+
+.field {
+  display: grid;
+  gap: 8px;
+}
+
+.field span {
+  font-size: 0.92rem;
+  color: #5b6773;
+}
+
+.field input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid #c8d7d3;
+  border-radius: 14px;
+  font: inherit;
+  background: #fff;
+}
+
+.hint {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 0 0 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: #f4f6ef;
+}
+
+.hint span {
+  color: #5b6773;
+}
+
+.error {
+  margin: 0;
+  color: #b42318;
+  font-weight: 600;
+}
+
+.code-block {
+  overflow: auto;
+  margin: 12px 0 0;
+  padding: 16px;
+  border-radius: 14px;
+  background: #18212f;
+  color: #eff6ff;
+  font-size: 0.9rem;
+}
+
+code {
+  padding: 0 4px;
+  border-radius: 6px;
+  background: #f1f4f7;
+  font-family: "IBM Plex Mono", monospace;
+}
