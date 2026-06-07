@@ -1,9 +1,9 @@
 ---
-name: open-banking-okta-proxy-poc
+name: oauth-okta-proxy-poc
 description: Use when building or iterating on a local proof of concept for an OAuth or OIDC proxy that intercepts third-party app authorize requests, detours through Okta-backed resource app consent, then resumes the original authorization flow. Applies to architecture clarification, endpoint design, local Okta setup, request and state handling, and POC scoping. Excludes Ping-specific implementation unless the user explicitly adds it back.
 ---
 
-# Open Banking Okta Proxy POC
+# OAuth Okta Proxy POC
 
 Use this skill when the task is to design, explain, or implement a local proof of concept for the proxy flow where:
 
@@ -49,5 +49,5 @@ Use this skill when the task is to design, explain, or implement a local proof o
 ## When To Avoid This Skill
 
 - The user only wants a standard direct Okta social login with no consent detour.
-- The user wants a production-grade open banking platform design rather than a local POC.
+- The user wants a production-grade platform design rather than a local POC.
 - The task is primarily about Ping federation internals.

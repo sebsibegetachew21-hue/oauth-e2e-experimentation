@@ -1,4 +1,4 @@
 version: 1
-display_name: Open Banking Okta Proxy POC
+display_name: OAuth Okta Proxy POC
 short_description: Build or explain a local proxy-based OAuth consent flow with Okta and a resource app.
 default_prompt: Build or explain a local POC where a proxy intercepts third-party app authorize requests, redirects through Okta-backed resource app consent, and resumes the original OAuth flow.

@@ -29,6 +29,6 @@
 
 ## Non-Goals
 
-- full open banking standards compliance
+- full standards compliance
 - production hardening
 - enterprise SSO edge cases
